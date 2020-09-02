@@ -1,9 +1,12 @@
 package org.launchcode.javawebdevtechjobspersistent.models;
 
 import javax.persistence.*;
+import javax.validation.constraints.NotBlank;
+import java.util.ArrayList;
+import java.util.List;
 
 @Entity
-public class Job{
+public class Job extends AbstractEntity{
 
     @Id
     @GeneratedValue
@@ -11,16 +14,21 @@ public class Job{
 
     private String name;
 
-    private String employer;
-    private String skills;
+    @ManyToOne
+    @NotBlank(message = "Employer is required")
+    private Employer employer;
+
+    @ManyToMany
+    @NotBlank(message = "Skill is required")
+    private List<Skill> skills = new ArrayList<>();
 
     public Job() {
     }
 
-    public Job(String anEmployer, String someSkills) {
+    public Job(Employer employer, List<Skill> skills) {
         super();
-        this.employer = anEmployer;
-        this.skills = someSkills;
+        this.employer = employer;
+        this.skills = skills;
     }
 
     // Getters and setters.
@@ -33,19 +41,19 @@ public class Job{
         this.name = name;
     }
 
-    public String getEmployer() {
+    public Employer getEmployer() {
         return employer;
     }
 
-    public void setEmployer(String employer) {
+    public void setEmployer(Employer employer) {
         this.employer = employer;
     }
 
-    public String getSkills() {
+    public List<Skill> getSkills() {
         return skills;
     }
 
-    public void setSkills(String skills) {
+    public void setSkills(List<Skill> skills) {
         this.skills = skills;
     }
 }
